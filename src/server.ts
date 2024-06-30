@@ -6,6 +6,10 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello World!');
+});
+
 app.get('/api/hello', async (req: Request, res: Response) => {
   const visitorName = req.query.visitor_name as string || 'Guest';
   const clientIp = req.ip;
