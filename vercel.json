@@ -1,6 +1,5 @@
 {
     "version": 2,
     "name": "hng11-server",
-    "builds": [{ "src": "./dist/server.js", "use": "@vercel/node" }],
     "routes": [{ "src": "/(.*)", "dest": "./dist/server.js" }]
   }
