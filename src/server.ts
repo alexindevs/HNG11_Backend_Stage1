@@ -16,8 +16,6 @@ app.get('/api/hello', async (req: Request, res: Response) => {
   visitorName = visitorName.replace(/['"]+/g, '');
   const clientIp = req.ip;
 
-  console.log(clientIp);
-
   if (!clientIp) {
     res.status(500).send('An error occurred while fetching data');
     return;
@@ -25,7 +23,6 @@ app.get('/api/hello', async (req: Request, res: Response) => {
 
   try {
     const locationResponse = await getIpLocation(clientIp);
-    console.log(locationResponse);
     const { city } = locationResponse;
     
     const weatherDataUrl = 'http://api.weatherapi.com/v1';
