@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import axios from 'axios';
+import { getIpLocation } from 'ipapi-tools';
 
 require('dotenv').config();
 
@@ -11,12 +12,21 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.get('/api/hello', async (req: Request, res: Response) => {
-  const visitorName = req.query.visitor_name as string || 'Guest';
+  let visitorName = req.query.visitor_name as string || 'Guest';
+  visitorName = visitorName.replace(/['"]+/g, '');
   const clientIp = req.ip;
 
+  console.log(clientIp);
+
+  if (!clientIp) {
+    res.status(500).send('An error occurred while fetching data');
+    return;
+  }
+
   try {
-    const locationResponse = await axios.get(`http://ip-api.com/json/${clientIp}`);
-    const { city } = locationResponse.data;
+    const locationResponse = await getIpLocation(clientIp);
+    console.log(locationResponse);
+    const { city } = locationResponse;
     
     const weatherDataUrl = 'http://api.weatherapi.com/v1';
     const weatherApiKey = process.env.WEATHER_API_KEY;
